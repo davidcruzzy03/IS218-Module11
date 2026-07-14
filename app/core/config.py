@@ -1,21 +1,14 @@
-# app/core/config.py
-from pydantic_settings import BaseSettings
-from typing import Optional
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """
-    Application settings loaded from environment variables.
-    
-    This class uses Pydantic's BaseSettings to automatically load configuration
-    from environment variables or a .env file. This follows the Twelve-Factor App
-    methodology for configuration management.
-    """
-    DATABASE_URL: str = "postgresql://postgres:postgres@db:5432/calculator_db"
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    DATABASE_URL: str
+    TEST_DATABASE_URL: str | None = None
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+    )
 
 
 settings = Settings()
